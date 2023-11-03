@@ -11,7 +11,21 @@ function ColorNewForm() {
   });
 
   // Add a color. Redirect to the index view.
-  const addColor = () => {};
+  const addColor = () => {
+    const colorData = { name: color.name, is_favorite: color.isFavorite };
+    try {
+      fetch(`${API}/colors`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(colorData),
+      }).then((r) => r.json())
+      .then(()=> navigate('/colors'))
+    } catch (err) {
+      return err;
+    }
+  };
 
   const handleTextChange = (event) => {
     setColor({ ...color, [event.target.id]: event.target.value });

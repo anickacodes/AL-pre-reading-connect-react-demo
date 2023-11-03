@@ -21,9 +21,30 @@ function ColorEditForm() {
   };
 
   // Update a color. Redirect to show view
-  const updateColor = () => {};
+  const updateColor = () => {
+    const updatedColor = { name: color.name, is_favorite: color.isFavorite };
+    try {
+      fetch(`${API}/colors/${index}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedColor),
+      })
+        .then((r) => r.json())
+        .then(() => navigate(`/colors/${index}`));
+    } catch (err) {
+      return err;
+    }
+  };
 
   // On page load, fill in the form with the color data.
+  useEffect(() => {
+    fetch(`${API}/colors/${index}`)
+    .then(r => r.json())
+    .then(data => setColor(data))
+  },[])
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
